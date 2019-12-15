@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Pizza.Models;
 
 namespace Pizza.Controllers
@@ -34,7 +35,48 @@ namespace Pizza.Controllers
             }
 
             return Ok(idzam);
-
         }
-    }
+
+        [HttpPost]
+        public IActionResult Create(Zamówienie newZamówienie)
+        {
+            _context.Zamówienie.Add(newZamówienie);
+            _context.SaveChanges();
+
+            return StatusCode(201, newZamówienie);
+        }
+
+        [HttpPut("{IdZamówienie:int}")]
+        public IActionResult Update(Zamówienie updatedZamówienie)
+        {
+
+            if (_context.Zamówienie.Count(e => e.IdZamówienie == updatedZamówienie.IdZamówienie) == 0)
+            {
+                return NotFound();
+            }
+
+            _context.Zamówienie.Attach(updatedZamówienie);
+            _context.Entry(updatedZamówienie).State = EntityState.Modified;
+            _context.SaveChanges();
+
+            return Ok(updatedZamówienie);
+        }
+
+        [HttpDelete("{IdZamówienie:int}")]
+        public IActionResult Delete(int IdZamówienie)
+        {
+            var IdZam = _context.Zamówienie.FirstOrDefault(e => e.IdZamówienie == IdZamówienie);
+            if (IdZam == null)
+            {
+                return NotFound();
+            }
+
+            _context.Zamówienie.Remove(IdZam);
+            _context.SaveChanges();
+
+
+            return Ok(IdZam);
+        }
+
+    } 
 }

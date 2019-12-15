@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Pizza.Models
 {
@@ -13,6 +14,7 @@ namespace Pizza.Models
         }
 
         public int IdZamówienie { get; set; }
+        [Required(ErrorMessage = "Koszt musi zostać podany!")]
         public int Koszt { get; set; }
         public int KlientIdKlient { get; set; }
 

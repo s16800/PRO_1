@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Pizza.Models
 {
@@ -11,6 +12,7 @@ namespace Pizza.Models
         }
 
         public int IdSkładnik { get; set; }
+        [Required(ErrorMessage = "Nazwa musi zostać podana!")]
         public string Nazwa { get; set; }
         public int Cena { get; set; }
 
